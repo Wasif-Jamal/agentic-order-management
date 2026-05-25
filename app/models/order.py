@@ -1,10 +1,10 @@
 from sqlalchemy import Column, Integer, String, DateTime
 from datetime import datetime
 
-from app.config.db_config import Base
+from app.config.db_config import db_config
 
 
-class Order(Base):
+class Order(db_config.Base):
     __tablename__ = "orders"
 
     order_id = Column(Integer, primary_key=True, index=True)

@@ -1,10 +1,10 @@
 from sqlalchemy import Column, Integer, String, Float, DateTime
 from datetime import datetime
 
-from app.config.db_config import Base
+from app.config.db_config import db_config
 
 
-class Inventory(Base):
+class Inventory(db_config.Base):
     __tablename__ = "inventory"
 
     product_id = Column(Integer, primary_key=True, index=True)

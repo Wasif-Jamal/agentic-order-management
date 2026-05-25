@@ -5,15 +5,22 @@ from sqlalchemy.orm import sessionmaker
 from app.config.env_config import settings
 
 
-engine = create_engine(
-    settings.DATABASE_URL,
-    connect_args={"check_same_thread": False}
-)
+class DatabaseConfig:
 
-SessionLocal = sessionmaker(
-    autocommit=False,
-    autoflush=False,
-    bind=engine
-)
+    def __init__(self):
 
-Base = declarative_base()
+        self.engine = create_engine(
+            settings.DATABASE_URL,
+            connect_args={"check_same_thread": False}
+        )
+
+        self.SessionLocal = sessionmaker(
+            autocommit=False,
+            autoflush=False,
+            bind=self.engine
+        )
+
+        self.Base = declarative_base()
+
+
+db_config = DatabaseConfig()

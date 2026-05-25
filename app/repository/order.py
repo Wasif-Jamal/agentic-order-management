@@ -3,21 +3,17 @@ from sqlalchemy.orm import Session
 from app.models.order import Order
 
 
-def create_order(
-    db: Session,
-    product_id: int,
-    quantity: int,
-    remarks: str | None
-):
-    order = Order(
-        product_id=product_id,
-        quantity=quantity,
-        status="PLACED",
-        remarks=remarks
-    )
+class OrderRepository:
+    def __init__(self, db: Session):
+        self.db = db
 
-    db.add(order)
-    db.commit()
-    db.refresh(order)
+    def create_order(self, product_id: int, quantity: int, remarks: str | None):
+        order = Order(
+            product_id=product_id, quantity=quantity, status="PLACED", remarks=remarks
+        )
 
-    return order
+        self.db.add(order)
+        self.db.commit()
+        self.db.refresh(order)
+
+        return order

@@ -1,10 +1,10 @@
 from sqlalchemy import Column, Integer, String, DateTime
 from datetime import datetime
 
-from app.config.db_config import Base
+from app.config.db_config import db_config
 
 
-class InventoryAudit(Base):
+class InventoryAudit(db_config.Base):
     __tablename__ = "inventory_audit"
 
     audit_id = Column(Integer, primary_key=True, index=True)

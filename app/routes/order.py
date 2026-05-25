@@ -1,9 +1,9 @@
 from fastapi import APIRouter
 from sqlalchemy.orm import Session
 
-from app.config.db_config import SessionLocal
+from app.config.db_config import db_config
 from app.schemas.order import OrderCreate
-from app.repository.order import create_order
+from app.repository.order import OrderRepository
 
 
 router = APIRouter(prefix="/orders", tags=["Orders"])
@@ -12,9 +12,9 @@ router = APIRouter(prefix="/orders", tags=["Orders"])
 @router.post("/")
 def place_order(order: OrderCreate):
 
-    db: Session = SessionLocal()
+    db: Session = db_config.SessionLocal()
 
-    created_order = create_order(
+    created_order = OrderRepository.create_order(
         db=db,
         product_id=order.product_id,
         quantity=order.quantity,

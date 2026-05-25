@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 from app.config.env_config import settings
-from app.config.db_config import Base, engine
+from app.config.db_config import db_config
 
 from app.routes.order import router as order_router
 from app.routes.inventory import router as inventory_router
@@ -22,7 +22,7 @@ def start_application() -> FastAPI:
     print("Starting Agentic Order Management System...")
     print(f"Database URL: {settings.DATABASE_URL}")
 
-    Base.metadata.create_all(bind=engine)
+    db_config.Base.metadata.create_all(bind=db_config.engine)
 
     app.include_router(order_router)
     app.include_router(inventory_router)
