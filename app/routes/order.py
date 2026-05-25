@@ -14,8 +14,9 @@ def place_order(order: OrderCreate):
 
     db: Session = db_config.SessionLocal()
 
-    created_order = OrderRepository.create_order(
-        db=db,
+    order_repository = OrderRepository(db)
+
+    created_order = order_repository.create_order(
         product_id=order.product_id,
         quantity=order.quantity,
         remarks=order.remarks
