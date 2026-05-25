@@ -9,4 +9,8 @@ wheels/
 # Virtual environments
 .venv
 
+# .env
 .env
+
+# db
+agentic_order_management.db
