@@ -17,3 +17,34 @@ class OrderRepository:
         self.db.refresh(order)
 
         return order
+
+    def get_order_by_id(self, order_id: int):
+
+        return (
+            self.db.query(Order)
+            .filter(Order.order_id == order_id)
+            .first()
+        )
+
+    def cancel_order(
+        self,
+        order_id: int
+    ):
+
+        order = self.get_order_by_id(order_id)
+
+        if not order:
+            raise ValueError("Order not found.")
+
+        previous_status = order.status
+
+        order.status = "CANCELLED"
+
+        self.db.commit()
+
+        self.db.refresh(order)
+
+        return {
+            "order": order,
+            "previous_status": previous_status
+        }
