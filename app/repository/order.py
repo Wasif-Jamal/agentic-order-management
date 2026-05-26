@@ -20,16 +20,9 @@ class OrderRepository:
 
     def get_order_by_id(self, order_id: int):
 
-        return (
-            self.db.query(Order)
-            .filter(Order.order_id == order_id)
-            .first()
-        )
+        return self.db.query(Order).filter(Order.order_id == order_id).first()
 
-    def cancel_order(
-        self,
-        order_id: int
-    ):
+    def cancel_order(self, order_id: int):
 
         order = self.get_order_by_id(order_id)
 
@@ -44,7 +37,4 @@ class OrderRepository:
 
         self.db.refresh(order)
 
-        return {
-            "order": order,
-            "previous_status": previous_status
-        }
+        return {"order": order, "previous_status": previous_status}

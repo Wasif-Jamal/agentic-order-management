@@ -6,18 +6,14 @@ from app.config.env_config import settings
 
 
 class DatabaseConfig:
-
     def __init__(self):
 
         self.engine = create_engine(
-            settings.DATABASE_URL,
-            connect_args={"check_same_thread": False}
+            settings.DATABASE_URL, connect_args={"check_same_thread": False}
         )
 
         self.SessionLocal = sessionmaker(
-            autocommit=False,
-            autoflush=False,
-            bind=self.engine
+            autocommit=False, autoflush=False, bind=self.engine
         )
 
         self.Base = declarative_base()

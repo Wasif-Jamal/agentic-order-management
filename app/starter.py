@@ -14,10 +14,7 @@ from app.models.order_audit import OrderAudit  # noqa: F401
 
 
 def start_application() -> FastAPI:
-    app = FastAPI(
-        title="Agentic Order Management",
-        version="1.0.0"
-    )
+    app = FastAPI(title="Agentic Order Management", version="1.0.0")
 
     print("Starting Agentic Order Management System...")
     print(f"Database URL: {settings.DATABASE_URL}")

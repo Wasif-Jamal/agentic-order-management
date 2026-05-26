@@ -17,9 +17,7 @@ def place_order(order: OrderCreate):
     order_repository = OrderRepository(db)
 
     created_order = order_repository.create_order(
-        product_id=order.product_id,
-        quantity=order.quantity,
-        remarks=order.remarks
+        product_id=order.product_id, quantity=order.quantity, remarks=order.remarks
     )
 
     return created_order
