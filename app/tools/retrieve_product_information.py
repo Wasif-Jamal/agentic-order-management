@@ -1,11 +1,11 @@
-# from app.agents.enquiry.retriever import Retriever
+from app.agents.enquiry.retriever import Retriever
 
 
-# class RetrieveProductInformationTool:
-#     def __init__(self, retriever: Retriever):
+class RetrieveProductInformationTool:
+    def __init__(self, retriever: Retriever):
 
-#         self.retriever = retriever
+        self.retriever = retriever
 
-#     def execute(self, query: str):
+    def execute(self, query: str):
 
-#         return self.retriever.retrieve(query)
+        return self.retriever.retrieve(query)
