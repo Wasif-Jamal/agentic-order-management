@@ -42,9 +42,7 @@ class Ingestion:
 
         self.create_collection()
 
-        loader = PyPDFLoader(
-            "data/agentic_order_management_knowledge_base.pdf"
-        )
+        loader = PyPDFLoader("data/agentic_order_management_knowledge_base.pdf")
 
         documents = loader.load()
 

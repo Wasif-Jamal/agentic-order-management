@@ -1,18 +1,29 @@
+from langchain_core.tools import tool
+
+from app.config.db_config import db_config
 from app.repository.inventory import InventoryRepository
 
 
-class CheckInventoryTool:
-    def __init__(self, inventory_repository: InventoryRepository):
+@tool
+def check_inventory(product_id: int, quantity: int) -> str:
+    """
+    Check whether requested inventory
+    quantity is available.
+    """
 
-        self.inventory_repository = inventory_repository
+    db = db_config.SessionLocal()
 
-    def execute(self, product_id: int, quantity: int):
+    try:
+        inventory_repository = InventoryRepository(db)
 
-        available = self.inventory_repository.check_inventory_availability(
+        available = inventory_repository.check_inventory_availability(
             product_id=product_id, quantity=quantity
         )
 
-        if not available:
-            raise ValueError("Requested quantity is not available.")
+        if available:
+            return "Inventory is available."
 
-        return True
+        return "Inventory is not available."
+
+    finally:
+        db.close()

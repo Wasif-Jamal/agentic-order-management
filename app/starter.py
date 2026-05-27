@@ -5,6 +5,7 @@ from app.config.db_config import db_config
 
 from app.routes.order import router as order_router
 from app.routes.inventory import router as inventory_router
+from app.routes.chat import router as chat_router
 
 # Import models
 from app.models.inventory import Inventory  # noqa: F401
@@ -23,5 +24,6 @@ def start_application() -> FastAPI:
 
     app.include_router(order_router)
     app.include_router(inventory_router)
+    app.include_router(chat_router)
 
     return app

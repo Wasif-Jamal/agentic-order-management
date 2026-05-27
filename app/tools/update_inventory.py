@@ -1,19 +1,43 @@
+from langchain_core.tools import tool
+
+from app.config.db_config import db_config
+
 from app.repository.inventory import InventoryRepository
 
 
-class UpdateInventoryTool:
-    def __init__(self, inventory_repository: InventoryRepository):
+@tool
+def reduce_inventory(product_id: int, quantity: int) -> str:
+    """
+    Reduce inventory after order placement.
+    """
 
-        self.inventory_repository = inventory_repository
+    db = db_config.SessionLocal()
 
-    def reduce_inventory(self, product_id: int, quantity: int):
+    try:
+        inventory_repository = InventoryRepository(db)
 
-        return self.inventory_repository.reduce_inventory(
-            product_id=product_id, quantity=quantity
-        )
+        inventory_repository.reduce_inventory(product_id=product_id, quantity=quantity)
 
-    def restore_inventory(self, product_id: int, quantity: int):
+        return "Inventory updated successfully."
 
-        return self.inventory_repository.restore_inventory(
-            product_id=product_id, quantity=quantity
-        )
+    finally:
+        db.close()
+
+
+@tool
+def restore_inventory(product_id: int, quantity: int) -> str:
+    """
+    Restore inventory after cancellation.
+    """
+
+    db = db_config.SessionLocal()
+
+    try:
+        inventory_repository = InventoryRepository(db)
+
+        inventory_repository.restore_inventory(product_id=product_id, quantity=quantity)
+
+        return "Inventory restored successfully."
+
+    finally:
+        db.close()

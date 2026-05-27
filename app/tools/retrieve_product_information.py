@@ -1,11 +1,18 @@
-from app.agents.enquiry.retriever import Retriever
+from langchain_core.tools import tool
+
+from app.tools.retriever import Retriever
 
 
-class RetrieveProductInformationTool:
-    def __init__(self, retriever: Retriever):
+retriever = Retriever()
 
-        self.retriever = retriever
 
-    def execute(self, query: str):
+@tool
+def retrieve_product_information(query: str) -> str:
+    """
+    Retrieve product information
+    from vector database.
+    """
 
-        return self.retriever.retrieve(query)
+    results = retriever.retrieve(query)
+
+    return "\n\n".join(results)

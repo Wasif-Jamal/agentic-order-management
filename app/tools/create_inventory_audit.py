@@ -1,22 +1,31 @@
+from langchain_core.tools import tool
+
+from app.config.db_config import db_config
+
 from app.repository.inventory_audit import InventoryAuditRepository
 
 
-class CreateInventoryAuditTool:
-    def __init__(self, inventory_audit_repository: (InventoryAuditRepository)):
+@tool
+def create_inventory_audit(
+    product_id: int, change_type: str, quantity_changed: int, remarks: str
+) -> str:
+    """
+    Create inventory audit record.
+    """
 
-        self.inventory_audit_repository = inventory_audit_repository
+    db = db_config.SessionLocal()
 
-    def execute(
-        self,
-        product_id: int,
-        change_type: str,
-        quantity_changed: int,
-        remarks: str | None = None,
-    ):
+    try:
+        inventory_audit_repository = InventoryAuditRepository(db)
 
-        return self.inventory_audit_repository.create_inventory_audit(
+        inventory_audit_repository.create_audit(
             product_id=product_id,
             change_type=change_type,
             quantity_changed=quantity_changed,
             remarks=remarks,
         )
+
+        return "Inventory audit created successfully."
+
+    finally:
+        db.close()

@@ -1,22 +1,31 @@
+from langchain_core.tools import tool
+
+from app.config.db_config import db_config
+
 from app.repository.order_audit import OrderAuditRepository
 
 
-class CreateOrderAuditTool:
-    def __init__(self, order_audit_repository: OrderAuditRepository):
+@tool
+def create_order_audit(
+    order_id: int, previous_status: str, new_status: str, remarks: str
+) -> str:
+    """
+    Create order audit record.
+    """
 
-        self.order_audit_repository = order_audit_repository
+    db = db_config.SessionLocal()
 
-    def execute(
-        self,
-        order_id: int,
-        previous_status: str,
-        new_status: str,
-        remarks: str | None = None,
-    ):
+    try:
+        order_audit_repository = OrderAuditRepository(db)
 
-        return self.order_audit_repository.create_order_audit(
+        order_audit_repository.create_audit(
             order_id=order_id,
             previous_status=previous_status,
             new_status=new_status,
             remarks=remarks,
         )
+
+        return "Order audit created successfully."
+
+    finally:
+        db.close()
